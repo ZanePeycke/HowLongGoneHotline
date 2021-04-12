@@ -17,7 +17,7 @@ def concatFiles(directory_path, output_filename):
                     fo.write(line)
 
 
-def to_dataframe(file_path):
+def transcript_to_dataframe(file_path):
     """Take text file and split on new lines and periods
     Returns a pandas dataframe with a column for each phrase"""
     df = []
