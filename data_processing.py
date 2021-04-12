@@ -2,6 +2,20 @@ import os
 import regex
 import pandas as pd
 
+
+def remove_intro(directory_path, num_lines):
+    """Remove the intro consistent to all episodes
+    We remove this to avoid a problem with finding the most
+    common phrases later. However, this is optional and use case
+    will vary depending on the dataset being used."""
+    files = os.listdir(directory_path)
+    for file in files:
+        with open(directory_path + file, 'r') as fin:
+            data = fin.read().splitlines(True)
+        with open(directory_path + file, 'w') as fout:
+            fout.writelines(data[num_lines:])
+
+
 def concatFiles(directory_path, output_filename):
     """Merge all files in the specified directory path
         and output a single file to output_filename.
@@ -26,4 +40,4 @@ def transcript_to_dataframe(file_path):
         for l in regex.split('[\n\.]', full_text):
             if l and l != ".":
                 df.append(l)
-    return pd.DataFrame(df)
+    return pd.DataFrame(data=df, columns=['phrase'])
