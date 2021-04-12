@@ -1,4 +1,6 @@
 import os
+import regex
+import pandas as pd
 
 def concatFiles(directory_path, output_filename):
     """Merge all files in the specified directory path
@@ -13,3 +15,15 @@ def concatFiles(directory_path, output_filename):
             with open(os.path.join(directory_path, infile)) as fin:
                 for line in fin:
                     fo.write(line)
+
+
+def to_dataframe(file_path):
+    """Take text file and split on new lines and periods
+    Returns a pandas dataframe with a column for each phrase"""
+    df = []
+    with open(file_path, "r") as f:
+        full_text = f.read()
+        for l in regex.split('[\n\.]', full_text):
+            if l and l != ".":
+                df.append(l)
+    return pd.DataFrame(df)
