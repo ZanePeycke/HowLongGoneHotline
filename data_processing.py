@@ -41,3 +41,11 @@ def transcript_to_dataframe(file_path):
             if l and l != ".":
                 df.append(l)
     return pd.DataFrame(data=df, columns=['phrase'])
+
+
+def remove_phrases(dataframe, phrase_list):
+    """Remove any rows from the dataframe that contain a
+    phrase from the phrase list"""
+    for phrase in phrase_list:
+        dataframe = dataframe[~dataframe.phrase.str.contains(phrase)]
+    return dataframe
