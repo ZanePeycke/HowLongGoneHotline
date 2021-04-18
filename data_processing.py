@@ -49,3 +49,16 @@ def remove_phrases(dataframe, phrase_list):
     for phrase in phrase_list:
         dataframe = dataframe[~dataframe.phrase.str.contains(phrase)]
     return dataframe
+
+def filter_phrases_by_length(df, phrase_column_name, lower_bound, upper_bound):
+    """ Given a dataframe and the name of a column containing phrases, this function
+    checks the number of words in each phrase between the lower and upper bounds.
+    The phrases with lengths below the lower_bound, and above the upper_bound are
+    then dropped from the dataframe."""
+    unwanted_rows = df[df[phrase_column_name].str.split().str.len() < lower_bound].index
+    df = df.drop(unwanted_rows, axis=0)
+
+    unwanted_rows = df[df[phrase_column_name].str.split().str.len() > upper_bound].index
+    df = df.drop(unwanted_rows, axis=0)
+
+    return df
