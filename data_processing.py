@@ -37,7 +37,7 @@ def transcript_to_dataframe(file_path):
     df = []
     with open(file_path, "r") as f:
         full_text = f.read()
-        for l in regex.split('[\n\.]', full_text):
+        for l in regex.split('[\n\.\?]', full_text):
             if l and l != ".":
                 df.append(l)
     return pd.DataFrame(data=df, columns=['phrase'])
@@ -60,5 +60,14 @@ def filter_phrases_by_length(df, phrase_column_name, lower_bound, upper_bound):
 
     unwanted_rows = df[df[phrase_column_name].str.split().str.len() > upper_bound].index
     df = df.drop(unwanted_rows, axis=0)
+
+    return df
+
+
+def remove_tokens(df, column_name, token_list):
+    """Given a dataframe and a list of tokens we remove all items in the token
+    list from the specified column name."""
+    for token in token_list:
+        df[column_name] = df[column_name].str.replace(token, '')
 
     return df
