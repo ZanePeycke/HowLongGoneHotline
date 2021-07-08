@@ -1,1 +1,1 @@
-# HowLongGoneHotline
+# Public repository for Langue projects
